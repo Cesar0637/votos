@@ -1,0 +1,42 @@
+{% extends 'base2.html' %}
+{% block titulo %}
+Candidatos
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Candidatos</h1>
+<a class="btn btn-primary" href="{% url 'reg_candidato' %}">Nuevo candidato</a>
+
+<form method="post">
+    {% csrf_token %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Partido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidato in candidatos %}
+            <tr>
+                <td>{{candidato.id}}</td>
+                <td>{{candidato.nombre}}</td>
+                <td>{{candidato.apeido_Paterno}}</td>
+                <td>{{candidato.apeido_Materno}}</td>
+                <td>{{candidato.partidos.nombre}}</td>
+                <td>
+                    {{candidato.num_votos}}</td>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+{% endblock contenido %}

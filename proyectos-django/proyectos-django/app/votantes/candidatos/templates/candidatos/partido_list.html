@@ -1,0 +1,59 @@
+{% extends 'base2.html' %}
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Título de la Página</title>
+    <!-- Aquí van tus enlaces a archivos CSS y otros elementos del encabezado -->
+</head>
+<body>
+    {% block contenido %}
+    <div class="container">
+        <h1>{% block titulo %}Lista de partidos{% endblock titulo %}</h1>
+        <a class="btn btn-primary" href="{% url 'reg_partido' %}">Nuevo partido</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Imagen del partido</th>
+                    <th>Nombre del Partido</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partido in object_list %}
+                    <tr>
+                        <td>
+                            <img src="{{ partido.logo.url }}" alt="Imagen del partido" width="360" height="215"><br><br>
+                            {{ partido.logo.url }}
+                        </td>
+                        <td>{{ partido.nombre }}</td>
+                        <td>{{ partido.descripcion }}</td>
+                        <td>
+                            <a class="btn btn-danger" href="{% url 'eliminar_partido' partido.id %}">Eliminar</a>
+                            <a class="btn btn-success" href="{% url 'editar_partido' partido.id %}">Editar</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            <p>No existen partidos registrados</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'lista_partidos' %}">&lt;- Regresar a la bienvenida</a><br>
+    </div>
+    {% endblock contenido %}
+    <!-- Aquí van tus scripts al final del cuerpo o cualquier otro elemento que necesites -->
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+   EDITAR/AGREGAR Candidatos
+
+{% block titulo %}
+    EDITAR/AGREGAR Candidatos
+{% endblock titulo %}
+
+{% block contenido %}
+    <form method="post" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+        {{form.as_p}}
+            <input class="btn btn-success" type="submit" value="Guardar">
+
+        <a class="btn btn-danger" href="{% url 'lista_candidatos' %}">Regresar</a>
+
+    </form>
+    
+    
+{% endblock contenido %}

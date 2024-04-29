@@ -1,0 +1,93 @@
+{% extends 'base2.html' %}
+{% block titulo %}
+Candidatos
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Candidatos</h1>
+<a class="btn btn-primary" href="{% url 'reg_candidato' %}">Nuevo candidato</a>
+
+<form method="post">
+    {% csrf_token %}
+    <table class="table">
+        <thead>
+            <tr>
+                <td></td>
+                <td>{{form.nombre}}</td>
+                <td>{{form.ap}}</td>
+                <td>{{form.am}}</td>
+                <td>{{form.partidos}}</td>
+                <td>
+                    <button class="btn btn-primary bt-sm" type="submit">Buscar</button>
+                </td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Partido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidato in candidatos %}
+            <tr>
+                <td>{{candidato.id}}</td>
+                <td>{{candidato.nombre}}</td>
+                <td>{{candidato.apeido_Paterno}}</td>
+                <td>{{candidato.apeido_Materno}}</td>
+                <td>{{candidato.partidos.nombre}}</td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm eliminar-btn" href="{% url 'eliminar_candidato' candidato.id %}">Eliminar</a>
+                    <a class="btn btn-outline-primary btn-sm" href="{% url 'editar_candidato' candidato.id %}">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post" class="form">
+        {% csrf_token %}
+        <label for="cuantos">Selecciona la cantidad:</label>
+        <select name="cuantos" id="cuantos">
+            <option value="1" {% if cuantos == 1 %}selected{% endif %}>1</option>
+            <option value="3" {% if cuantos == 3 %}selected{% endif %}>3</option>
+            <option value="5" {% if cuantos == 5 %}selected{% endif %}>5</option>
+            <option value="10" {% if cuantos == 10 %}selected{% endif %}>10</option>
+        </select>
+        <span>&nbsp;&nbsp;</span>
+        <input class="btn btn-secondary" type="submit" value="Mostrar">
+    </form>
+</form>
+<div class="pagination">
+    <span class="step-links">
+        {% if candidatos.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ candidatos.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ candidatos.number }} of {{ candidatos.paginator.num_pages }}.
+        </span>
+
+        {% if candidatos.has_next %}
+        <a href="?page={{ candidatos.next_page_number }}">next</a>
+        <a href="?page={{ candidatos.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<script>
+    document.querySelectorAll('.eliminar-btn').forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            var confirmacion = confirm('¿Estás seguro de que quieres eliminar este candidato?');
+            
+            if (!confirmacion) {
+                event.preventDefault(); // Evita que el enlace se abra si se cancela la eliminación
+            }
+        });
+    });
+</script>
+
+{% endblock contenido %}

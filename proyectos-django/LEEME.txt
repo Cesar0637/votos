@@ -1,0 +1,6 @@
+para abrir el programa hay que meterse ala liga ListaP
+http://localhost:8000/listaP/
+
+las pruebas estan en la carpeta prueba selenium
+y pruebas de aceptasion
+en unas partes le di mucho tiempo para seleccionar el archivo de imagen manualmente ya que no supe como automatizarlo
